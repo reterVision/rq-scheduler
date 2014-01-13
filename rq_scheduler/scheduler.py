@@ -80,8 +80,8 @@ class Scheduler(object):
         if kwargs is None:
             kwargs = {}
         job = Job.create(func, args=args, connection=self.connection,
-                         kwargs=kwargs, result_ttl=result_ttl,
-                         timeout=timeout)
+                         kwargs=kwargs, result_ttl=result_ttl)
+        job.timeout = timeout
         job.origin = self.queue_name
         if commit:
             job.save()
