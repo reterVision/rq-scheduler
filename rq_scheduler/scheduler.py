@@ -67,7 +67,7 @@ class Scheduler(object):
         signal.signal(signal.SIGTERM, stop)
 
     def _create_job(self, func, args=None, kwargs=None, commit=True,
-                    result_ttl=None):
+                    result_ttl=None, timeout=None):
         """
         Creates an RQ job and saves it to Redis.
         """
@@ -80,7 +80,8 @@ class Scheduler(object):
         if kwargs is None:
             kwargs = {}
         job = Job.create(func, args=args, connection=self.connection,
-                         kwargs=kwargs, result_ttl=result_ttl)
+                         kwargs=kwargs, result_ttl=result_ttl,
+                         timeout=timeout)
         job.origin = self.queue_name
         if commit:
             job.save()
